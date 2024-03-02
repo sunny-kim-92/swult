@@ -6,9 +6,8 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
-  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+  provider = "mysql"
+  url      = env("MYSQL_URL") // uses connection pooling
 }
 
 model users {
@@ -17,4 +16,87 @@ model users {
   email     String   @unique
   image     String
   createdAt DateTime @default(now())
+}
+
+model card {
+  id             Int              @id @default(autoincrement())
+  set            set              @relation(fields: [setId], references: [id])
+  setId          Int
+  name           String?
+  subtitle       String?
+  number         String?
+  type           CardType?
+  cost           Int?
+  power          Int?
+  hp             Int?
+  frontText      String?
+  frontArt       String?
+  doubleSided    Boolean
+  backText       String?
+  backArt        String?
+  rarity         CardRarity?
+  cardType       CardType?
+  unique         Boolean?
+  artist         String?
+  aspectsOnCards aspectsOnCards[]
+  traitsOnCards  traitsOnCards[]
+}
+
+model set {
+  id   Int    @id @default(autoincrement())
+  name String
+  card card[]
+}
+
+model aspect {
+  id             Int              @id @default(autoincrement())
+  name           String
+  color          String
+  aspectsOnCards aspectsOnCards[]
+}
+
+model aspectsOnCards {
+  aspect   aspect @relation(fields: [aspectId], references: [id])
+  aspectId Int
+  card     card   @relation(fields: [cardId], references: [id])
+  cardId   Int
+
+  @@id([aspectId, cardId])
+}
+
+model trait {
+  id            Int             @id @default(autoincrement())
+  name          String
+  traitsOnCards traitsOnCards[]
+}
+
+model traitsOnCards {
+  trait   trait @relation(fields: [traitId], references: [id])
+  traitId Int
+  card    card  @relation(fields: [cardId], references: [id])
+  cardId  Int
+
+  @@id([traitId, cardId])
+}
+
+model keyword {
+  id          Int    @id @default(autoincrement())
+  name        String
+  description String
+}
+
+enum CardType {
+  Base
+  Event
+  Leader
+  Token
+  Unit
+  Upgrade
+}
+
+enum CardRarity {
+  C
+  U
+  R
+  L
 }

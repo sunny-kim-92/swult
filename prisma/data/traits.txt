@@ -1,0 +1,47 @@
+["ARMOR", "BOUNTY HUNTER", "CAPITAL SHIP", "CLONE", "CONDITION", "CREATURE", "DISASTER", "DROID", "FIGHTER", "FORCE", "FRINGE", "GAMBIT", "HUTT", "IMPERIAL", "INNATE", "INQUISITOR", "ITEM", "JAWA", "JEDI", "LAW", "LEARNED", "LIGHTSABER", "MANDALORIAN", "MODIFICATION", "NEW REPUBLIC", "OFFICIAL", "PLAN", "REBEL", "REPUBLIC", "RESISTANCE", "SEPARATIST", "SITH", "SPECTRE", "SPEEDER", "SUPPLY", "TACTIC", "TANK", "TRANSPORT", "TRICK", "TROOPER", "TWI'LEK", "UNDERWORLD", "VEHICLE", "WALKER", "WEAPON", "WOOKIEE"]
+
+Blue = Vigilance
+Green = Command
+Red = Aggression
+Yellow = Cunning
+White = Heroism
+Black = Villainy
+
+{"name": "Ambush", "description": "After you play this unit, it may ready and attack an enemy
+unit. This unit doesn’t ready if there are no enemy units to attack."},
+
+"Grit",
+This unit gets +1/+0 for each damage on it.
+
+"Overwhelm",
+When this unit deals damage to an enemy unit while
+attacking, deal excess damage to that opponent’s base. Example: If
+a 5-power unit with Overwhelm attacks a unit with 3 HP remaining, it
+deals 2 damage to the enemy base.
+
+"Raid",
+While this unit is attacking, it gets extra power equal to the Raid
+value. Example: A unit with Raid 2 gets +2/+0 while attacking.
+
+"Restore",
+When this unit attacks, heal damage from your base equal
+to the Restore value (before dealing damage). Example: A unit with
+Restore 2 heals 2 damage from your base when it attacks.
+
+"Saboteur",
+When this unit attacks, ignore the Sentinel keyword on
+enemy units and defeat all Shield tokens on the defender (before
+dealing damage).
+
+"Sentinel",
+Enemy units in the same arena (ground or space) as this
+unit can’t attack your non-Sentinel units in this arena or your base.
+If you have multiple units with Sentinel in the same arena, your
+opponent may choose which of those units to attack. (Place units
+with Sentinel slightly ahead of other units in that arena as a reminder
+that they must be attacked.)
+
+"Shielded",
+When you play this unit, give a Shield token to it. If any
+amount of damage would be dealt to a unit with a Shield token on it,
+prevent that damage and defeat 1 Shield token on that unit.
