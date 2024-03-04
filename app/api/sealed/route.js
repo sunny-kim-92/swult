@@ -90,6 +90,10 @@ export async function GET() {
     return Response.json({ cards: cardList })
 }
 
+function generatePack(cards){
+    
+}
+
 function pickRandomCards(list, count) {
     let final = []
     let indexes = []
