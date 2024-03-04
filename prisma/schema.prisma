@@ -20,12 +20,12 @@ model user {
 
 model card {
   id             Int              @id @default(autoincrement())
-  set            set              @relation(fields: [setId], references: [id])
   setId          Int
-  name           String?
+  set            set              @relation(fields: [setId], references: [id])
+  name           String
   subtitle       String?
   number         String?
-  type           CardType?
+  type           String?
   cost           Int?
   power          Int?
   hp             Int?
@@ -34,23 +34,23 @@ model card {
   doubleSided    Boolean
   backText       String?
   backArt        String?
-  rarity         CardRarity?
-  cardType       CardType?
+  rarity         String?
   unique         Boolean?
   artist         String?
   aspectsOnCards aspectsOnCards[]
   traitsOnCards  traitsOnCards[]
+  keywordsOnCards keywordsOnCards[]
 }
 
 model set {
-  id   Int    @id @default(autoincrement())
-  name String
+  id   Int    @id
+  name String @unique
   card card[]
 }
 
 model aspect {
   id             Int              @id @default(autoincrement())
-  name           String
+  name           String           @unique
   color          String
   aspectsOnCards aspectsOnCards[]
 }
@@ -66,7 +66,7 @@ model aspectsOnCards {
 
 model trait {
   id            Int             @id @default(autoincrement())
-  name          String
+  name          String          @unique
   traitsOnCards traitsOnCards[]
 }
 
@@ -81,22 +81,16 @@ model traitsOnCards {
 
 model keyword {
   id          Int    @id @default(autoincrement())
-  name        String
-  description String
+  name        String @unique
+  description String @db.VarChar(5000)
+  keywordsOnCards keywordsOnCards[]
 }
 
-enum CardType {
-  Base
-  Event
-  Leader
-  Token
-  Unit
-  Upgrade
-}
+model keywordsOnCards {
+  keyword   keyword @relation(fields: [keywordId], references: [id])
+  keywordId Int
+  card    card  @relation(fields: [cardId], references: [id])
+  cardId  Int
 
-enum CardRarity {
-  C
-  U
-  R
-  L
+  @@id([keywordId, cardId])
 }

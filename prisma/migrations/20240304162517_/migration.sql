@@ -1,12 +1,3 @@
-/*
-  Warnings:
-
-  - You are about to drop the `users` table. If the table is not empty, all the data it contains will be lost.
-
-*/
--- DropTable
-DROP TABLE `users`;
-
 -- CreateTable
 CREATE TABLE `user` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
@@ -23,10 +14,10 @@ CREATE TABLE `user` (
 CREATE TABLE `card` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `setId` INTEGER NOT NULL,
-    `name` VARCHAR(191) NULL,
+    `name` VARCHAR(191) NOT NULL,
     `subtitle` VARCHAR(191) NULL,
     `number` VARCHAR(191) NULL,
-    `type` ENUM('Base', 'Event', 'Leader', 'Token', 'Unit', 'Upgrade') NULL,
+    `type` VARCHAR(191) NULL,
     `cost` INTEGER NULL,
     `power` INTEGER NULL,
     `hp` INTEGER NULL,
@@ -35,8 +26,7 @@ CREATE TABLE `card` (
     `doubleSided` BOOLEAN NOT NULL,
     `backText` VARCHAR(191) NULL,
     `backArt` VARCHAR(191) NULL,
-    `rarity` ENUM('C', 'U', 'R', 'L') NULL,
-    `cardType` ENUM('Base', 'Event', 'Leader', 'Token', 'Unit', 'Upgrade') NULL,
+    `rarity` VARCHAR(191) NULL,
     `unique` BOOLEAN NULL,
     `artist` VARCHAR(191) NULL,
 
@@ -45,9 +35,10 @@ CREATE TABLE `card` (
 
 -- CreateTable
 CREATE TABLE `set` (
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `id` INTEGER NOT NULL,
     `name` VARCHAR(191) NOT NULL,
 
+    UNIQUE INDEX `set_name_key`(`name`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -57,6 +48,7 @@ CREATE TABLE `aspect` (
     `name` VARCHAR(191) NOT NULL,
     `color` VARCHAR(191) NOT NULL,
 
+    UNIQUE INDEX `aspect_name_key`(`name`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -73,6 +65,7 @@ CREATE TABLE `trait` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(191) NOT NULL,
 
+    UNIQUE INDEX `trait_name_key`(`name`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -88,9 +81,18 @@ CREATE TABLE `traitsOnCards` (
 CREATE TABLE `keyword` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(191) NOT NULL,
-    `description` VARCHAR(191) NOT NULL,
+    `description` VARCHAR(5000) NOT NULL,
 
+    UNIQUE INDEX `keyword_name_key`(`name`),
     PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `keywordsOnCards` (
+    `keywordId` INTEGER NOT NULL,
+    `cardId` INTEGER NOT NULL,
+
+    PRIMARY KEY (`keywordId`, `cardId`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- AddForeignKey
@@ -107,3 +109,9 @@ ALTER TABLE `traitsOnCards` ADD CONSTRAINT `traitsOnCards_traitId_fkey` FOREIGN 
 
 -- AddForeignKey
 ALTER TABLE `traitsOnCards` ADD CONSTRAINT `traitsOnCards_cardId_fkey` FOREIGN KEY (`cardId`) REFERENCES `card`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `keywordsOnCards` ADD CONSTRAINT `keywordsOnCards_keywordId_fkey` FOREIGN KEY (`keywordId`) REFERENCES `keyword`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `keywordsOnCards` ADD CONSTRAINT `keywordsOnCards_cardId_fkey` FOREIGN KEY (`cardId`) REFERENCES `card`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
