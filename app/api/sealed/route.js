@@ -6,7 +6,7 @@ export async function GET() {
             setId: 1
         }
     })
-    let cardlist = [...generatePack(res), ...generatePack(res), ...generatePack(res)]
+    let cardlist = [...generatePack(res), ...generatePack(res), ...generatePack(res), ...generatePack(res), ...generatePack(res), ...generatePack(res)]
 
     return Response.json({ cards: cardlist })
 }
