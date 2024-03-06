@@ -6,12 +6,18 @@ export async function GET() {
             setId: 1
         }
     })
-    const leaders = res.filter((card) => card.type == 'Leader')
-    const bases = res.filter((card) => card.type == 'Base')
-    const allCommons = res.filter((card) => card.rarity == 'C')
-    const allUncommons = res.filter((card) => card.rarity == 'U')
-    const allRares = res.filter((card) => card.rarity == 'R')
-    const allLegendaries = res.filter((card) => card.rarity == 'L')
+    let cardlist = [...generatePack(res), ...generatePack(res), ...generatePack(res)]
+
+    return Response.json({ cards: cardlist })
+}
+
+function generatePack(cards){
+    const leaders = cards.filter((card) => card.type == 'Leader')
+    const bases = cards.filter((card) => card.type == 'Base')
+    const allCommons = cards.filter((card) => card.rarity == 'C')
+    const allUncommons = cards.filter((card) => card.rarity == 'U')
+    const allRares = cards.filter((card) => card.rarity == 'R')
+    const allLegendaries = cards.filter((card) => card.rarity == 'L')
 
     const leaderCommons = leaders.filter((card) => card.rarity == 'C')
     const leaderRares = leaders.filter((card) => card.rarity == 'R')
@@ -85,13 +91,7 @@ export async function GET() {
         foilCard = pickRandomCards(allCommons, 1)
     }
 
-    let cardList = [...commons, ...uncommons, rareCard, foilCard, leaderCard, baseCard]
-
-    return Response.json({ cards: cardList })
-}
-
-function generatePack(cards){
-    
+    return [...commons, ...uncommons, rareCard, foilCard, leaderCard, baseCard]
 }
 
 function pickRandomCards(list, count) {
